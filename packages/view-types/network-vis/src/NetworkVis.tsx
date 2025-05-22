@@ -23,16 +23,17 @@ const stylesheet = [
     style: {
       'background-color': 'data(color)',
       'width': '10',
-      'height': '10'
+      'height': '10',
+      'border-width': '0px'
     }
   },
   {
     selector: 'node:selected',
     style: {
-      'background-color': '#00ff00',  // Green color for selected nodes
       'border-width': '2px',
-      'border-color': '#000',
-      'border-opacity': 1
+      'border-color': '#ffffff',  // Green highlight for selected nodes
+      // 'border-opacity': 1,
+      'border-style': 'solid'
     }
   },
   {
@@ -87,7 +88,7 @@ const CytoscapeWrapper: React.FC<{
 };
 
 // Function to filter nodes and links based on the motif criteria
-const filterMotif = (nodes: any[], links: any[]) => {
+const filterMotif = (nodes: any[], links: any[]) => {//still show the entire network, but only show the nodes and links that match the motif
   const filteredNodes = new Set<string>();
   const filteredLinks: { source: string; target: string }[] = [];
 
@@ -124,8 +125,9 @@ export default function NetworkVis() {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await fetch('https://network-hidive.s3.eu-central-1.amazonaws.com/network_kidney_20_1.json');
+      try {// send json files
+        const response = await fetch('https://network-hidive.s3.eu-central-1.amazonaws.com/network_kidney_20_10.json');
+        // const response = await fetch('https://network-hidive.s3.eu-central-1.amazonaws.com/network.json');
         if (!response.ok) throw new Error('Failed to fetch network data');
         const data = await response.json();
 
