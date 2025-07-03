@@ -266,33 +266,33 @@ const NetworkVis: React.FC<NetworkVisProps> = ({
       return results;
     };
     const foundMatches = findSubgraphIsomorphisms();
-    
+
     // Filter out duplicate motifs that contain the same node IDs in different orders
     const uniqueMatches: Set<string>[] = [];
     const seenNodeSets = new Set<string>();
-    
+
     foundMatches.forEach(match => {
       // Convert the Set to a sorted array and then to a string for comparison
       const sortedNodeIds = Array.from(match).sort();
       const nodeSetKey = sortedNodeIds.join(',');
-      
+
       if (!seenNodeSets.has(nodeSetKey)) {
         seenNodeSets.add(nodeSetKey);
         uniqueMatches.push(match);
       }
     });
-    
+
     const cy = cyRef.current;
-    
+
     // Clear all node selections first
     cy.nodes().unselect();
-    
+
     // Select all nodes that are part of any motif match for visual feedback
     const allMatchedNodes = new Set<string>();
     uniqueMatches.forEach(match => {
       match.forEach(nodeId => allMatchedNodes.add(nodeId));
     });
-    
+
     cy.nodes().forEach((node: any) => {
       if (allMatchedNodes.has(node.id())) {
         node.select();
@@ -319,7 +319,7 @@ const NetworkVis: React.FC<NetworkVisProps> = ({
     for (let i = 0; i < uniqueMatches.length; i++) {
       const match = uniqueMatches[i];
       const matchNodeIds: string[] = [];
-      
+
       match.forEach(nodeId => {
         const node = cyRef.current.getElementById(nodeId);
         if (node.length > 0) {
@@ -355,7 +355,9 @@ const NetworkVis: React.FC<NetworkVisProps> = ({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://network-hidive.s3.eu-central-1.amazonaws.com/modified_network_kidney_20_10.json');
+        // const response = await fetch('https://network-hidive.s3.eu-central-1.amazonaws.com/modified_network_kidney_20_10.json');
+        const response = await fetch('http://127.0.0.1:8080/cell_graph_touching_cells.json');
+        // const response = await fetch('http://127.0.0.1:8080/cell_graph_from_centroid_edges.json');
         if (!response.ok) throw new Error('Failed to fetch network data');
         const data = await response.json();
         setState({ data, infoText: '' });
@@ -368,7 +370,7 @@ const NetworkVis: React.FC<NetworkVisProps> = ({
 
   const handleExportGraph = () => {
     if (!cyRef.current || !state.data) return;
-    
+
     if (exportFormat === 'json') {
       // Export in Cytoscape.js format (for web applications)
       const json = cyRef.current.json();
@@ -389,7 +391,7 @@ const NetworkVis: React.FC<NetworkVisProps> = ({
           node.subComponents ? node.subComponents.join(';') : ''
         ].join(','))
       ].join('\n');
-      
+
       const nodesDataStr = "data:text/csv;charset=utf-8," + encodeURIComponent(nodesCsv);
       const nodesDownloadNode = document.createElement('a');
       nodesDownloadNode.setAttribute("href", nodesDataStr);
@@ -397,7 +399,7 @@ const NetworkVis: React.FC<NetworkVisProps> = ({
       document.body.appendChild(nodesDownloadNode);
       nodesDownloadNode.click();
       nodesDownloadNode.remove();
-      
+
       // Export edges as CSV
       const edgesCsv = [
         ['source', 'target'].join(','),
@@ -406,7 +408,7 @@ const NetworkVis: React.FC<NetworkVisProps> = ({
           link.target
         ].join(','))
       ].join('\n');
-      
+
       const edgesDataStr = "data:text/csv;charset=utf-8," + encodeURIComponent(edgesCsv);
       const edgesDownloadNode = document.createElement('a');
       edgesDownloadNode.setAttribute("href", edgesDataStr);
@@ -416,10 +418,10 @@ const NetworkVis: React.FC<NetworkVisProps> = ({
       edgesDownloadNode.remove();
     } else if (exportFormat === 'sif') {
       // SIF (Simple Interaction Format) - directly compatible with Cytoscape desktop
-      const sifContent = state.data.links.map(link => 
+      const sifContent = state.data.links.map(link =>
         `${link.source} pp ${link.target}`
       ).join('\n');
-      
+
       const sifDataStr = "data:text/plain;charset=utf-8," + encodeURIComponent(sifContent);
       const sifDownloadNode = document.createElement('a');
       sifDownloadNode.setAttribute("href", sifDataStr);
@@ -427,7 +429,7 @@ const NetworkVis: React.FC<NetworkVisProps> = ({
       document.body.appendChild(sifDownloadNode);
       sifDownloadNode.click();
       sifDownloadNode.remove();
-      
+
       // Export node attributes with color and style information
       const nodeAttributes = [
         ['Node', 'ftuName', 'color', 'borderColor', 'size', 'opacity', 'subComponents'].join('\t'),
@@ -435,7 +437,7 @@ const NetworkVis: React.FC<NetworkVisProps> = ({
           const nodeColor = node.ftuName === 'glomeruli' ? 'red' : 'yellow';
           let borderColor = '#999';
           let opacity = '0.3';
-          
+
           if (node.ftuName === 'nerves' && node.id.startsWith('merged_') && node.subComponents) {
             const coloredSubComponent = node.subComponents.find(subId => cellColors.has(subId));
             if (coloredSubComponent) {
@@ -446,7 +448,7 @@ const NetworkVis: React.FC<NetworkVisProps> = ({
             borderColor = `rgb(${cellColors.get(node.id)?.join(',')})`;
             opacity = '1';
           }
-          
+
           return [
             node.id,
             node.ftuName,
@@ -458,7 +460,7 @@ const NetworkVis: React.FC<NetworkVisProps> = ({
           ].join('\t');
         })
       ].join('\n');
-      
+
       const nodeAttrDataStr = "data:text/plain;charset=utf-8," + encodeURIComponent(nodeAttributes);
       const nodeAttrDownloadNode = document.createElement('a');
       nodeAttrDownloadNode.setAttribute("href", nodeAttrDataStr);
@@ -466,7 +468,7 @@ const NetworkVis: React.FC<NetworkVisProps> = ({
       document.body.appendChild(nodeAttrDownloadNode);
       nodeAttrDownloadNode.click();
       nodeAttrDownloadNode.remove();
-      
+
       // Export edge attributes
       const edgeAttributes = [
         ['Edge', 'source', 'target', 'width', 'color', 'style'].join('\t'),
@@ -479,7 +481,7 @@ const NetworkVis: React.FC<NetworkVisProps> = ({
           'solid'
         ].join('\t'))
       ].join('\n');
-      
+
       const edgeAttrDataStr = "data:text/plain;charset=utf-8," + encodeURIComponent(edgeAttributes);
       const edgeAttrDownloadNode = document.createElement('a');
       edgeAttrDownloadNode.setAttribute("href", edgeAttrDataStr);
@@ -504,7 +506,7 @@ ${state.data.nodes.map(node => `    <node id="${node.id}">
 ${state.data.links.map((link, index) => `    <edge id="e${index}" source="${link.source}" target="${link.target}"/>`).join('\n')}
   </graph>
 </graphml>`;
-      
+
       const graphmlDataStr = "data:text/xml;charset=utf-8," + encodeURIComponent(graphmlContent);
       const graphmlDownloadNode = document.createElement('a');
       graphmlDownloadNode.setAttribute("href", graphmlDataStr);

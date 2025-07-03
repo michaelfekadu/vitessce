@@ -6,6 +6,7 @@ import {
     codeluppiGating,
 } from './view-configs/codeluppi.js';
 import {network_vis} from './view-configs/3d-maps/network_vis_example.js'
+import {testNetwork} from './view-configs/3d-maps/test_network.js'
 import {networkAndNeuroGlancer} from './view-configs/3d-maps/network-and-neuroglancer.js'
 import {eng2019} from './view-configs/eng.js';
 import {wang2018} from './view-configs/wang.js';
@@ -112,6 +113,7 @@ export const configs = {
     'just-higlass': justHiglass,
     'codeluppi-2018': codeluppiViaCsv,
     'network_vis': network_vis,
+    'network-test': testNetwork,
     'network_neuroglancer': networkAndNeuroGlancer,
     'codeluppi-2018-via-zarr': codeluppiViaZarr,
     'combat-2022': combat2022cell,
