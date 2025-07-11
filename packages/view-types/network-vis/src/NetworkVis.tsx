@@ -356,7 +356,8 @@ const NetworkVis: React.FC<NetworkVisProps> = ({
     const fetchData = async () => {
       try {
         // const response = await fetch('https://network-hidive.s3.eu-central-1.amazonaws.com/modified_network_kidney_20_10.json');
-        const response = await fetch('http://127.0.0.1:8080/cell_graph_touching_cells.json');
+        // const response = await fetch('http://127.0.0.1:8080/cell_graph_touching_cells.json');
+        const response = await fetch('http://127.0.0.1:8080/cell_graph_from_2d_poly_surface_10um_edges.json');
         // const response = await fetch('http://127.0.0.1:8080/cell_graph_from_centroid_edges.json');
         if (!response.ok) throw new Error('Failed to fetch network data');
         const data = await response.json();

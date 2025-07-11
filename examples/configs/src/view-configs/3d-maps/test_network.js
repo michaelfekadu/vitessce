@@ -60,6 +60,11 @@ function generateTestNetwork() {
             obsLabelsType: 'gene',
         },
     });
+    //     .addFile({
+    //         fileType: 'network.json',
+    //         url: 'http://127.0.0.1:8080/cell_graph_touching_cells.json',
+    //     }
+    // );
 
     const scopes = config.addCoordinationByObject({
         spatialTargetZ: 0,

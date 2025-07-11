@@ -8,6 +8,7 @@ import {
 import {network_vis} from './view-configs/3d-maps/network_vis_example.js'
 import {testNetwork} from './view-configs/3d-maps/test_network.js'
 import {networkAndNeuroGlancer} from './view-configs/3d-maps/network-and-neuroglancer.js'
+import {moffitt2025} from './view-configs/3d-maps/moffitt.js'
 import {eng2019} from './view-configs/eng.js';
 import {wang2018} from './view-configs/wang.js';
 import {spraggins2020, neumann2020} from './view-configs/spraggins.js';
@@ -190,6 +191,7 @@ export const configs = {
     'link-controller-minimal': linkControllerMinimal,
     'melanoma-neuroglancer': melanomaNeuroglancer,
     'kidney-neuroglancer': kidneyNeuroglancer,
+    'moffitt': moffitt2025,
     // Nature Methods figures
     'figure-cite-seq': citeSeq,
     'figure-codex': codex,

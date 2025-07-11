@@ -91,7 +91,6 @@ export const FileType = {
   OBS_SETS_CSV: 'obsSets.csv',
   OBS_SETS_JSON: 'obsSets.json',
   SAMPLE_SETS_CSV: 'sampleSets.csv',
-  NETWORK_JSON: 'network.json',
   // OME-Zarr
   IMAGE_OME_ZARR: 'image.ome-zarr',
   OBS_SEGMENTATIONS_OME_ZARR: 'obsSegmentations.ome-zarr',
@@ -177,6 +176,8 @@ export const FileType = {
   FEATURE_LABELS_MUDATA_ZARR: 'featureLabels.mudata.zarr',
   GENOMIC_PROFILES_ZARR: 'genomic-profiles.zarr',
   NEIGHBORHOODS_JSON: 'neighborhoods.json',
+  // Network File Types:
+  NETWORK_JSON: 'network.json',
   // OME-TIFF
   IMAGE_OME_TIFF: 'image.ome-tiff',
   OBS_SEGMENTATIONS_OME_TIFF: 'obsSegmentations.ome-tiff',
