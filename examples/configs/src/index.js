@@ -191,7 +191,7 @@ export const configs = {
     'link-controller-minimal': linkControllerMinimal,
     'melanoma-neuroglancer': melanomaNeuroglancer,
     'kidney-neuroglancer': kidneyNeuroglancer,
-    'moffitt': moffitt2025,
+    'moffitt-2025': moffitt2025,
     // Nature Methods figures
     'figure-cite-seq': citeSeq,
     'figure-codex': codex,

@@ -13,7 +13,7 @@ function generateMoffitt2025() {
     });
     const dataset = config.addDataset('My dataset').addFile({
         fileType: 'obsSets.csv',
-        url: 'http://127.0.0.1:8081/mesh_celltype.csv',
+        url: 'https://vitessce-data-v2.s3.us-east-1.amazonaws.com/data/moffitt/merfish_mouse/mesh_celltype.csv',
         coordinationValues: {
             obsType: 'cell',
         },
@@ -60,14 +60,14 @@ function generateMoffitt2025() {
             layers: [
                 {
                     type: 'segmentation',
-                    source: 'precomputed://http://127.0.0.1:8081/mesh_mip_0_err_40_unsharded',
+                    source: 'precomputed://https://vitessce-data-v2.s3.us-east-1.amazonaws.com/data/moffitt/merfish_mouse/mesh_mip_0_err_40_unsharded/',
                     tab: 'segments',
                     objectAlpha: 0.5,
                     name: 'mesh_mip_0_err_40'
                 },
                 {
                     type: "annotation",
-                    source: "precomputed://http://127.0.0.1:8081/molecule_baysor2",
+                    source: "precomputed://https://vitessce-data-v2.s3.us-east-1.amazonaws.com/data/moffitt/merfish_mouse/molecule_baysor2",
                     tab: "source",
                     name: "molecule_baysor2",
                     shader: "// Converts HSV to RGB\nvec3 hsv2rgb(float h, float s, float v) {\n    float c = v * s;\n    float x = c * (1.0 - abs(mod(h * 6.0, 2.0) - 1.0));\n    float m = v - c;\n    vec3 rgb;\n    \n    if (h < 1.0/6.0) {\n        rgb = vec3(c, x, 0.0);\n    } else if (h < 2.0/6.0) {\n        rgb = vec3(x, c, 0.0);\n    } else if (h < 3.0/6.0) {\n        rgb = vec3(0.0, c, x);\n    } else if (h < 4.0/6.0) {\n        rgb = vec3(0.0, x, c);\n    } else if (h < 5.0/6.0) {\n        rgb = vec3(x, 0.0, c);\n    } else {\n        rgb = vec3(c, 0.0, x);\n    }\n    return rgb + vec3(m);\n}\n\nvoid main() {\n    int gene = prop_gene(); // Your property function\n\n    vec4 color = vec4(0.925, 0.925, 0.925, 0.0); // Fully transparent by default\n\n    if (gene >= 0 && gene < 200) {\n        float hue = float(gene) / 200.0; // Distribute hues evenly\n        vec3 rgb = hsv2rgb(hue, 0.65, 0.95); // Saturation and brightness fixed\n        color = vec4(rgb, 1.0);\n    }\n\n    if (color.a < 0.01) {\n        discard;\n    }\n\n    setColor(color);\n}\n",

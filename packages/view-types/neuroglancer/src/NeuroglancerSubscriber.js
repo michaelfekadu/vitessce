@@ -162,7 +162,6 @@ export function NeuroglancerSubscriber(props) {
     }), [mergedCellSets, theme,
         cellSetColor, cellSetSelection, obsIndex]);
 
-    console.log(cellColors)
     //   console.log("cellSets", cellSets);
     //   console.log("additionalCellSets", additionalCellSets);
     //   console.log("mergedCellSets", mergedCellSets);
