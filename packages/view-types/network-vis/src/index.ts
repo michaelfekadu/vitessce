@@ -1,2 +1,2 @@
-export { NetworkVisSubscriber } from './NetworkVisSubscriber';
-export { default as NetworkVis } from './NetworkVis';
+export { NetworkVisSubscriber } from './NetworkVisSubscriber.js';
+export { default as NetworkVis } from './NetworkVis.js';
